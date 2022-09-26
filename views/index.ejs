@@ -1,0 +1,68 @@
+<html lang="en">
+	<head>
+		<%- include('layouts/document-head') %>
+	</head>
+	<body class="bg-gray-200">
+		<%- include('layouts/header') %>
+		<div class="mx-auto flex items-center justify-center max-w-md">
+			<div class="flex flex-col items-stretch w-screen">
+				<div class="mb-8">
+					<p class="text-center text-gray-600">Hi, <strong><%= user.username %></strong>! What do you want todo next?</p>
+				</div>
+				<div class="mb-8">
+					<form action="/tasks" method="post">
+						<div class="flex items-center">
+							<input
+								type="text"
+								name="task"
+								placeholder="Things need todo asap!"
+								class="flex-1 px-4 py-2 w-full bg-white rounded-full text-sm focus:outline-none focus:shadow-lg"
+							/>
+							<button
+								class="ml-4 px-4 py-2 rounded-full bg-sky-500 text-white font-bold text-sm uppercase focus:outline-none focus:shadow-lg"
+							>
+								Add Task
+							</button>
+						</div>
+					</form>
+				</div>
+				<div class="mb-8">
+					<% for (const task of tasks) { %>
+					<form
+						action="/tasks/<%= task.id %>"
+						method="post"
+						class="block flex items-center pl-4 pr-3 py-2 bg-white shadow-lg rounded-full"
+					>
+						<div class="flex-1 mr-2 text-gray-800"><%= task.title %></div>
+						<% if (!task.is_done) { %>
+						<button
+							name="action"
+							value="done"
+							class="text-xs font-bold bg-gray-300 text-gray-500 rounded-full px-2 py-1"
+						>
+							Mark as Done
+						</button>
+						<% } else { %>
+						<button name="action" value="undone" class="text-xs font-bold bg-sky-500 text-white rounded-full px-2 py-1">
+							Done!
+						</button>
+						<button
+							name="action"
+							value="delete"
+							class="ml-2 text-xs font-bold bg-red-500 text-white rounded-full px-2 py-1"
+						>
+							Delete
+						</button>
+						<% } %>
+					</form>
+					<% } %>
+				</div>
+				<div class="mb-8">
+					<form action="/logout" method="post" class="block text-center">
+						<button class="text-red-400 text-sm underline">Logout!</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
